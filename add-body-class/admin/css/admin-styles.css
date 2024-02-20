@@ -1,5 +1,80 @@
 /* Style For Admin End */
-.ssb-custom-input {
+.wpmd-plugin-settings-title {
+    background: #1fb977;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+}
+.wpmd-plugin-settings-title h2 {
+    color: #fff;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 24px;
+}
+.wpmd-custom-input {
     height: 50px;
     border-radius: 0!important;
+}
+.wpmd-global-class-form {
+    width: 100%;
+    max-width: 500px;
+}
+.wpmd-global-class-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 15px;
+}
+.wpmd-post-type-holder {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.wpmd-post-type-holder .wpmd-checkBox-switch {
+    margin: 0;
+}
+.wpmd-post-type-holder .wpmd-post-type-name {
+    max-width: 100px;
+    min-width: 100px;
+}
+.wpmd-checkBox-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.wpmd-checkBox-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.wpmd-checkBox-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.wpmd-checkBox-slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+input:checked + .wpmd-checkBox-slider {
+    background-color: #ff0000;
+}
+input:checked + .wpmd-checkBox-slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
 }

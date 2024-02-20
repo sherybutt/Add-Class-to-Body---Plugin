@@ -1,6 +1,7 @@
 /* Style For Admin End */
 .wpmd-plugin-settings-title {
     background: #1fb977;
+	background: linear-gradient(to right, #1fb977, #15784e);
     padding: 15px;
     text-align: center;
     border-radius: 8px;

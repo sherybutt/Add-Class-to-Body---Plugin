@@ -91,7 +91,7 @@ function ssbwp_enqueue_dashboard_styles()
     $stylesheet_url = plugin_dir_url(__FILE__) . 'admin/css/admin-styles.css';
 
     // Enqueue the stylesheet only on the WordPress admin pages
-    wp_enqueue_style('ssbwp-dashboard-styles-css', $stylesheet_url);
+    wp_enqueue_style('ssbwp-dashboard-styles-css', $stylesheet_url, array(), '1.0.0');
 }
 
 add_action('admin_enqueue_scripts', 'ssbwp_enqueue_dashboard_styles');

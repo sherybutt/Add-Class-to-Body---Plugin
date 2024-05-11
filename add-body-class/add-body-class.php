@@ -71,7 +71,7 @@ function ssbwp_custom_options_page()
             <!-- Add nonce field -->
             <?php wp_nonce_field('ssbwp_settings', 'ssbwp_settings_nonce'); ?>
             
-            <label for="global_class">Global Class for Body:</label>
+            <label for="global_class">Global Class for Body (Only 1 Class Allowed):</label>
             <input type="text" id="global_class" name="global_class" value="<?php echo esc_attr($global_class); ?>" style="width: 100%;"><br /><br />
 
             <label>Select Post Types where you want to hide the custom class option:</label><br />
@@ -116,11 +116,14 @@ function ssbwp_add_custom_meta_box()
 
 add_action('add_meta_boxes', 'ssbwp_add_custom_meta_box');
 
-// Render the meta box content
+// Callback function to render the meta box content
 function ssbwp_render_custom_class_meta_box($post)
 {
     $custom_classes = get_post_meta($post->ID, '_ssbwp_custom_classes', true);
+    // Generate nonce field
+    $nonce = wp_create_nonce('ssbwp_custom_classes');
     ?>
+    <input type="hidden" name="ssbwp_custom_classes_nonce" value="<?php echo esc_attr($nonce); ?>">
     <label for="custom_classes">Enter custom classes <br />(Add comma-separator or space for multiple classes):</label><br /><br />
     <input type="text" class="wpmd-custom-input" id="custom_classes" name="custom_classes" value="<?php echo esc_attr($custom_classes); ?>" style="width: 100%;">
     <?php
@@ -129,11 +132,16 @@ function ssbwp_render_custom_class_meta_box($post)
 // Save the custom class meta data
 function ssbwp_save_custom_class_meta_data($post_id)
 {
+    // Verify nonce
+    if ( !isset( $_POST['ssbwp_custom_classes_nonce'] ) || !wp_verify_nonce( $_POST['ssbwp_custom_classes_nonce'], 'ssbwp_custom_classes' ) ) {
+        return $post_id;
+    }
+
     $hidden_post_types = get_option('ssbwp_hidden_post_types', array());
     $current_post_type = get_post_type($post_id);
 
     if (!in_array($current_post_type, $hidden_post_types)) {
-        if (array_key_exists('custom_classes', $_POST)) {
+        if (isset($_POST['custom_classes'])) {
             $custom_classes = sanitize_text_field($_POST['custom_classes']);
 
             // Update post meta only if custom classes are not empty

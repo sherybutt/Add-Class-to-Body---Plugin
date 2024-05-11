@@ -1,5 +1,5 @@
 === Add Class to Body ===
-Contributors: Sheryar
+Contributors: Sheryar Shahzad
 Tags: class, body, custom, meta box
 Requires at least: 4.0
 Tested up to: 5.9

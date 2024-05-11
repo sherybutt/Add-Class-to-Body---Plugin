@@ -53,7 +53,7 @@ After activating the plugin, go to 'Settings' > 'Add Class to Body' to set a glo
 
 == Credits ==
 
-* Author: Sheryar
+* Author: Sheryar Shahzad
 
 == License ==
 

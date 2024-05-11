@@ -36,7 +36,8 @@ function ssbwp_custom_options_page()
 {
     $success_message = '';
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
+    // Verify nonce
+    if (isset($_POST['save_settings']) && wp_verify_nonce($_POST['ssbwp_settings_nonce'], 'ssbwp_settings')) {
         $selected_post_types = isset($_POST['post_types']) ? $_POST['post_types'] : array();
         update_option('ssbwp_hidden_post_types', $selected_post_types);
 
@@ -51,7 +52,10 @@ function ssbwp_custom_options_page()
     $registered_post_types = array_merge(array('post', 'page'), $all_post_types);
     $global_class = get_option('ssbwp_global_class', '');
 
+    // Generate nonce field
+    $nonce = wp_create_nonce('ssbwp_settings');
     ?>
+
     <div class="wrap">
         <div class="wpmd-plugin-settings-title">
             <h2>Add Class to Body Settings</h2>
@@ -64,6 +68,9 @@ function ssbwp_custom_options_page()
         <?php endif; ?>
 
         <form class="wpmd-global-class-form" method="post" action="">
+            <!-- Add nonce field -->
+            <?php wp_nonce_field('ssbwp_settings', 'ssbwp_settings_nonce'); ?>
+            
             <label for="global_class">Global Class for Body:</label>
             <input type="text" id="global_class" name="global_class" value="<?php echo esc_attr($global_class); ?>" style="width: 100%;"><br /><br />
 

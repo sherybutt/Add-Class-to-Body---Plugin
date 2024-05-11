@@ -71,7 +71,7 @@ function ssbwp_custom_options_page()
             <?php
             foreach ($registered_post_types as $post_type) {
                 $checked = in_array($post_type, $hidden_post_types) ? 'checked' : '';
-                echo '<div class="wpmd-post-type-holder"> <div class="wpmd-post-type-name">' . ucfirst($post_type) . '</div><label class="wpmd-checkBox-switch"><input type="checkbox" name="post_types[]" value="' . esc_attr($post_type) . '" ' . $checked . '><span class="wpmd-checkBox-slider"></span></label></div><br />';
+                echo '<div class="wpmd-post-type-holder"> <div class="wpmd-post-type-name">' . esc_html(ucfirst($post_type)) . '</div><label class="wpmd-checkBox-switch"><input type="checkbox" name="post_types[]" value="' . esc_attr($post_type) . '" ' . esc_attr($checked) . '><span class="wpmd-checkBox-slider"></span></label></div><br />';
             }
             ?>
             <br />

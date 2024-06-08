@@ -37,11 +37,11 @@ function ssbwp_custom_options_page()
     $success_message = '';
 
     // Verify nonce
-    if (isset($_POST['save_settings']) && wp_verify_nonce($_POST['ssbwp_settings_nonce'], 'ssbwp_settings')) {
-        $selected_post_types = isset($_POST['post_types']) ? $_POST['post_types'] : array();
+    if (isset($_POST['save_settings']) && isset($_POST['ssbwp_settings_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['ssbwp_settings_nonce'])), 'ssbwp_settings')) {
+        $selected_post_types = isset($_POST['post_types']) ? array_map('sanitize_text_field', wp_unslash($_POST['post_types'])) : array();
         update_option('ssbwp_hidden_post_types', $selected_post_types);
 
-        $global_class = sanitize_text_field($_POST['global_class']);
+        $global_class = sanitize_text_field(wp_unslash($_POST['global_class']));
         update_option('ssbwp_global_class', $global_class);
 
         $success_message = 'Changes saved successfully!';
@@ -124,7 +124,7 @@ function ssbwp_render_custom_class_meta_box($post)
     $nonce = wp_create_nonce('ssbwp_custom_classes');
     ?>
     <input type="hidden" name="ssbwp_custom_classes_nonce" value="<?php echo esc_attr($nonce); ?>">
-    <label for="custom_classes">Enter custom classes <br />(Add comma-separator or space for multiple classes):</label><br /><br />
+    <label for="custom_classes">Enter custom classes <br />(Add comma-separator (,) for adding multiple classes):</label><br /><br />
     <input type="text" class="wpmd-custom-input" id="custom_classes" name="custom_classes" value="<?php echo esc_attr($custom_classes); ?>" style="width: 100%;">
     <?php
 }
@@ -133,7 +133,7 @@ function ssbwp_render_custom_class_meta_box($post)
 function ssbwp_save_custom_class_meta_data($post_id)
 {
     // Verify nonce
-    if ( !isset( $_POST['ssbwp_custom_classes_nonce'] ) || !wp_verify_nonce( $_POST['ssbwp_custom_classes_nonce'], 'ssbwp_custom_classes' ) ) {
+    if (!isset($_POST['ssbwp_custom_classes_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['ssbwp_custom_classes_nonce'])), 'ssbwp_custom_classes')) {
         return $post_id;
     }
 
@@ -142,7 +142,7 @@ function ssbwp_save_custom_class_meta_data($post_id)
 
     if (!in_array($current_post_type, $hidden_post_types)) {
         if (isset($_POST['custom_classes'])) {
-            $custom_classes = sanitize_text_field($_POST['custom_classes']);
+            $custom_classes = sanitize_text_field(wp_unslash($_POST['custom_classes']));
 
             // Update post meta only if custom classes are not empty
             if (!empty($custom_classes)) {
@@ -177,14 +177,16 @@ function ssbwp_add_custom_classes_to_body($classes)
     }
 
     global $post;
-    $hidden_post_types = get_option('ssbwp_hidden_post_types', array());
+    if ($post) {
+        $hidden_post_types = get_option('ssbwp_hidden_post_types', array());
 
-    if (!in_array($post->post_type, $hidden_post_types)) {
-        $custom_classes = get_post_meta($post->ID, '_ssbwp_custom_classes', true);
+        if (!in_array($post->post_type, $hidden_post_types)) {
+            $custom_classes = get_post_meta($post->ID, '_ssbwp_custom_classes', true);
 
-        if ($custom_classes) {
-            $custom_classes_array = explode(',', $custom_classes);
-            $classes = array_merge($classes, array_map('trim', $custom_classes_array));
+            if ($custom_classes) {
+                $custom_classes_array = explode(',', $custom_classes);
+                $classes = array_merge($classes, array_map('sanitize_html_class', array_map('trim', $custom_classes_array)));
+            }
         }
     }
 

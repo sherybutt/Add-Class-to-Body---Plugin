@@ -2,7 +2,7 @@
 Contributors: Sheryar Shahzad
 Tags: class, body, custom, meta box
 Requires at least: 4.0
-Tested up to: 5.9
+Tested up to: 6.5
 Stable tag: 1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -58,20 +58,3 @@ After activating the plugin, go to 'Settings' > 'Add Class to Body' to set a glo
 == License ==
 
 This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-== Frequently Asked Questions ==
-
-= How do I add a custom class to the body? =
-
-After activating the plugin, go to 'Settings' > 'Add Class to Body' to set a global class for the body. You can also add custom classes to individual posts/pages by editing them and using the meta box provided.
-
-== Screenshots ==
-
-1. Plugin settings page.
-2. Meta box for adding custom classes to posts/pages.
-
-== Upgrade Notice ==
-
-= 1.2 =
-* Added option to set global class for the body.
-* Improved UI for plugin settings.
